@@ -1,9 +1,9 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image/stb_image.h"
+#include "stb_image.h"
 
 #define STBI_MSC_SECURE_CRT
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image/stb_image_write.h"
+#include "stb_image_write.h"
 
 #include "Helper.h"
 #include "HittableList.h"
@@ -17,9 +17,6 @@
 
 
 #define CHANNELS 3
-typedef uint8_t uint;
-
-static std::string imagePath = "D:/Other/RAY_TRACING/Ray_Tracing_in_a_Weekend/Ray_Tracing_in_a_Weekend/output/";
 
 
 //void writePPM(int width, int height) {
@@ -108,7 +105,7 @@ void writePNG(int width, int height, int samples, int depth, const Hittable& wor
 			data.push_back(static_cast<uint>(256 * clamp(b, 0.0f, 0.999f)));
 		}
 	}
-	stbi_write_png((imagePath + "out.png").c_str(), width, height, CHANNELS, data.data(), width * CHANNELS);
+	stbi_write_png("output/out.png", width, height, CHANNELS, data.data(), width * CHANNELS);
 }
 
 HittableList randomScene() {

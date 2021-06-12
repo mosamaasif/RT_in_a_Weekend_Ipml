@@ -5,7 +5,7 @@
 class Metal : public Material {
 
 public:
-	Metal(const Vec3& a, double fuzz) : m_Albedo(a), m_Fuzz(fuzz < 1.0f ? m_Fuzz : 1.0f) {}
+	Metal(const Vec3& a, double fuzz) : m_Albedo(a), m_Fuzz(fuzz < 1.0f ? 0.0f : 1.0f) {}
 
 	bool scatter(const Ray& inRay, const HitRecord& rec, Vec3& attenuation, Ray& scattered) const override {
 		Vec3 reflected = reflect(inRay.getDirection().unitVector(), rec.normal);

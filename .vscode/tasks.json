@@ -1,0 +1,64 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "debug",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-std=c++14",
+				"-stdlib=libc++",
+				"-I",
+				"${workspaceFolder}/res/utils",
+				"-I",
+                "${workspaceFolder}/res/vendors/stb_image",
+				"-g",
+				"${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/res/utils/HittableList.cpp",
+                "${workspaceFolder}/res/utils/Sphere.cpp",
+				"-o",
+				"bin/debug/main"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "release",
+			"command": "/usr/bin/clang++",
+			"args": [
+				"-std=c++14",
+				"-stdlib=libc++",
+				"-I",
+				"${workspaceFolder}/res/utils",
+				"-I",
+                "${workspaceFolder}/res/vendors/stb_image",
+				"${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/res/utils/HittableList.cpp",
+                "${workspaceFolder}/res/utils/Sphere.cpp",
+				"-o",
+				"bin/release/main"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
