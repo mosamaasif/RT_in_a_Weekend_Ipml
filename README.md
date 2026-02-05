@@ -1,109 +1,66 @@
-[![MIT License][license-shield]][license-url]
+# Simple Path Tracer
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+A CPU-based path tracer written in C++14, following Peter Shirley's [*Ray Tracing in One Weekend*](https://raytracing.github.io/books/RayTracingInOneWeekend.html).
 
-  <h3 align="center">Simple Path Tracer</h3>
+## About
 
-  <p align="center">
-  Implementation of CPU based Path Tracer based on Ray Tracing in a Weekend by Peter Shirley
-  </p>
-</p>
+I built this to learn the fundamentals of ray tracing and physically-based rendering. It follows the first book in Peter Shirley's ray tracing series and implements the full pipeline from ray-sphere intersection all the way to a final rendered PNG with multiple materials. The random scene generator produces the classic "lots of small spheres" cover image from the book, which was a satisfying milestone to hit.
 
+## Features
 
+- **Materials**: Lambertian (diffuse), Metal (with configurable fuzz), and Dielectric (glass with Schlick reflectance approximation and refraction)
+- **Anti-aliasing**: Multi-sample per pixel (100 samples by default)
+- **Gamma correction**: Applied with gamma = 2.0
+- **Depth of field**: Configurable aperture and focus distance via a thin-lens camera model
+- **Random scene generation**: Procedurally places hundreds of small spheres with randomized materials
+- **PNG output**: Renders directly to PNG using stb_image_write (no PPM intermediate)
+- **Recursive ray bouncing**: Configurable max depth (50 bounces by default)
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <ul>
-        <li><a href="#how-to-run">How to Run</a></li>
-        <li><a href="#output-images">Output Images</a></li>
-      </ul>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details>
+## Built With
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+- [C++14](https://en.wikipedia.org/wiki/C%2B%2B)
+- [stb_image / stb_image_write](https://github.com/nothings/stb) (vendored in `res/vendors/stb_image/`)
 
-This is an implementation of a very simple Path Tracer based on the famous book <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">
-<i>"Ray Tracing in a Weekend"</i></a>  by Peter Shirley.
-
-
-### Built With
-
-* [C++](https://en.wikipedia.org/wiki/C%2B%2B)
-* [STB_IMAGE](https://github.com/nothings/stb)
-
-
-
-<!-- GETTING STARTED -->
 ## Getting Started
-
-To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* C++ - Google for your OS.
-* [git](https://git-scm.com)
+- A C++ compiler with C++14 support (e.g., clang++, g++)
+- [git](https://git-scm.com)
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/saeenyoda/RT_IN_A_WEEKEND_IMPL.git
-   ```
+Clone the repo:
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
+```sh
+git clone https://github.com/mosamaasif/RT_in_a_Weekend_Ipml.git
+cd RT_in_a_Weekend_Ipml
+```
 
 ### How to Run
-1. Open up command line or terminal and navigate to the cloned repo's directory
-   ```sh
-   cd "PATH-TO-DIRECTORY"
-   ```
-2. Run the main.cpp file (Using terminal on mac)
-   ```sh
-   clang++ -std=c++14 -stdlib=libc++ -I "PATH-TO-res/utils-FOLDER" -I "PATH-TO-res/vendors/stb_image-FOLDER" "PATH-TO-main.cpp" "PATH-TO-HittableList.cpp" "PATH-TO-Sphere.cpp" -o out/release/main 
-   ```
 
-***NOTE:***  
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`The instructions given above are for mac and that too using the terminal. For other OS and IDEs refer to the relevant docs.`
+From the project root, compile and run:
 
-### Output Images
-* Sample 1
-  <img src="images/out_1.png">
-* Sample 2
-  <img src="images/out_2.png">
-  
-  
-<!-- LICENSE -->
-## License
+```sh
+clang++ -std=c++14 -stdlib=libc++ \
+  -I res/utils \
+  -I res/vendors/stb_image \
+  src/main.cpp res/utils/HittableList.cpp res/utils/Sphere.cpp \
+  -o bin/release/main
 
-Distributed under the MIT License. See `LICENSE` for more information.
+./bin/release/main
+```
 
+The rendered image will be written to `output/out.png`.
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/github/license/saeenyoda/Inverted_Indexing?label=license&style=for-the-badge
-[license-url]: https://github.com/saeenyoda/Inverted_Indexing/blob/master/LICENSE
+**Note:** The build command above is for macOS with clang++. For other platforms or compilers (g++, MSVC), adjust the compiler and flags accordingly. A VS Code tasks.json with debug and release configurations is also included in `.vscode/`.
+
+## Sample Renders
+
+**Random scene** -- hundreds of diffuse, metal, and glass spheres with depth of field:
+
+![Random scene render](images/out_1.png)
+
+**Three spheres** -- Lambertian (blue), Metal (gold), and Dielectric (glass):
+
+![Three spheres render](images/out_2.png)
